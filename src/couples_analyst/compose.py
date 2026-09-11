@@ -279,7 +279,12 @@ def analyze(
 def validate(doc: dict[str, Any]) -> list[str]:
     """Contract checks that the JSON schema cannot express."""
     problems: list[str] = []
-    gate = doc["safety_gate"]["halted_analysis"]
+    for key in ("safety_gate", "indicators", "ruled_out", "competing_readings"):
+        if key not in doc:
+            problems.append(f"document is missing required top-level key: {key}.")
+    if problems:
+        return problems
+    gate = doc["safety_gate"].get("halted_analysis", False)
 
     if not gate and doc["indicators"] and not doc["ruled_out"]:
         problems.append(
@@ -294,19 +299,37 @@ def validate(doc: dict[str, Any]) -> list[str]:
         )
     if not gate and not doc["competing_readings"]:
         problems.append("competing_readings is empty (00-epistemics.md sec. 7).")
+    required = [
+        "indicator_id", "module", "construct", "theory_source", "present", "unit",
+        "evidence", "inference_level", "confidence", "confidence_band", "rationale",
+        "not_licensed",
+    ]
     for ind in doc["indicators"]:
-        if not ind["evidence"]:
-            problems.append(f"{ind['indicator_id']}: finding with no quoted span.")
-        if ind["confidence"] < EVIDENCE_FLOOR:
-            problems.append(f"{ind['indicator_id']}: below the evidentiary floor but reported.")
-        if ind["inference_level"] == "inferred" and ind["confidence"] > 0.65:
-            problems.append(f"{ind['indicator_id']}: inferred indicator above the 0.65 cap.")
-        if ind["unit"] == "dyad" and ind["speaker"] is not None:
-            problems.append(f"{ind['indicator_id']}: dyad-level indicator carries a speaker.")
-        for e in ind["evidence"]:
-            if not e["quote"].strip():
-                problems.append(f"{ind['indicator_id']}: empty quote.")
-    if gate and (doc["indicators"] or doc["ruled_out"] or doc["cycle"]):
+        name = ind.get("indicator_id", "<indicator with no id>")
+        missing = [k for k in required if k not in ind]
+        if missing:
+            problems.append(f"{name}: missing required field(s): {', '.join(missing)}.")
+        # `speaker` is optional in the schema: absent and null both mean "no speaker",
+        # which is what a dyad-level indicator must have.
+        evidence = ind.get("evidence") or []
+        confidence = ind.get("confidence")
+        if not evidence:
+            problems.append(f"{name}: finding with no quoted span.")
+        if isinstance(confidence, (int, float)):
+            if confidence < EVIDENCE_FLOOR:
+                problems.append(f"{name}: below the evidentiary floor but reported.")
+            if ind.get("inference_level") == "inferred" and confidence > 0.65:
+                problems.append(f"{name}: inferred indicator above the 0.65 cap.")
+        elif "confidence" in ind:
+            problems.append(f"{name}: confidence is not a number.")
+        if ind.get("unit") == "dyad" and ind.get("speaker") is not None:
+            problems.append(f"{name}: dyad-level indicator carries a speaker.")
+        if ind.get("unit") == "speaker" and not ind.get("speaker"):
+            problems.append(f"{name}: speaker-level indicator names no speaker.")
+        for e in evidence:
+            if not isinstance(e, dict) or not str(e.get("quote", "")).strip():
+                problems.append(f"{name}: empty or malformed quote.")
+    if gate and (doc["indicators"] or doc["ruled_out"] or doc.get("cycle")):
         problems.append(
             "The safety gate tripped but pattern analysis was emitted (90-safety.md sec. 3)."
         )

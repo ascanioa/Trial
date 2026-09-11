@@ -108,22 +108,98 @@ def module_filter(indicator_id: str, only: str | None) -> bool:
     return only is None or indicator_id.split(".")[0] == only
 
 
+def _score_case(
+    doc: dict[str, Any],
+    case: dict[str, Any],
+    only: str | None,
+    per_module: dict[str, dict[str, int]],
+    calib: dict[str, dict[str, int]],
+    near_miss: dict[str, Any],
+    case_rows: list[dict[str, Any]],
+    contract_problems: list[str],
+) -> None:
+    """Score one document against its gold labels, updating the accumulators in place."""
+    gold = case["gold"]
+    expected = {i for i in gold["expected_indicators"] if module_filter(i, only)}
+    forbidden = {i for i in gold["must_not_fire"] if module_filter(i, only)}
+
+    if "refusal" not in doc:
+        contract_problems.extend(f"{case['case_id']}: {p}" for p in validate(doc))
+
+    # A foreign document may omit fields the reference coder always writes, so read
+    # defensively: a malformed indicator is a contract problem, not a crash.
+    predicted_conf: dict[str, float] = {}
+    for i in doc.get("indicators", []):
+        ind_id, conf = i.get("indicator_id"), i.get("confidence")
+        if not ind_id or not isinstance(conf, (int, float)):
+            contract_problems.append(
+                f"{case['case_id']}: indicator with missing id or non-numeric confidence."
+            )
+            continue
+        if conf >= EVIDENCE_FLOOR and module_filter(ind_id, only):
+            predicted_conf[ind_id] = conf
+    predicted = set(predicted_conf)
+
+    tripped = doc.get("safety_gate", {}).get("tripped", False)
+    gate_ok = tripped == gold.get("expected_safety_trip", False)
+
+    tp, fn, fp = predicted & expected, expected - predicted, predicted - expected
+    for group, key in ((tp, "tp"), (fn, "fn"), (fp, "fp")):
+        for ind in group:
+            per_module[ind.split(".")[0]][key] += 1
+
+    for ind, conf in predicted_conf.items():
+        for lo, hi, label in BANDS:
+            if lo <= conf < hi:
+                calib[label]["n"] += 1
+                calib[label]["correct"] += 1 if ind in expected else 0
+                break
+
+    for ind in forbidden:
+        near_miss["total"] += 1
+        if ind in predicted:
+            near_miss["fired"] += 1
+            near_miss["detail"].append(
+                f"{case['case_id']}: {ind} fired at {predicted_conf[ind]:.2f}"
+            )
+
+    max_ind = gold.get("max_indicators")
+    case_rows.append(
+        {
+            "case_id": case["case_id"],
+            "kind": case.get("kind", "positive"),
+            "lang": case["language"],
+            "tp": len(tp),
+            "fn": len(fn),
+            "fp": len(fp),
+            "missed": sorted(fn),
+            "spurious": sorted(fp),
+            "gate_ok": gate_ok,
+            "sparse_ok": max_ind is None or len(predicted) <= max_ind,
+            "n_predicted": len(predicted),
+            "max_indicators": max_ind,
+        }
+    )
+
+
 def score(cases: list[dict[str, Any]], backend: str, only: str | None) -> dict[str, Any]:
     per_module: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
     calib: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
-    near_miss = {"fired": 0, "total": 0, "detail": []}
+    near_miss: dict[str, Any] = {"fired": 0, "total": 0, "detail": []}
     case_rows: list[dict[str, Any]] = []
     contract_problems: list[str] = []
-
     backend_failures: list[str] = []
+
     for n, case in enumerate(cases, 1):
         # The claude backend takes minutes per case; report progress so a long run is legible.
         print(f"  [{n}/{len(cases)}] {case['case_id']}...", file=sys.stderr, flush=True)
         try:
             doc = BACKENDS[backend](case)
+            _score_case(doc, case, only, per_module, calib, near_miss, case_rows,
+                        contract_problems)
         except Exception as exc:  # noqa: BLE001 - one bad case must not lose the other runs
             msg = f"{case['case_id']}: {type(exc).__name__}: {exc}"
-            print(f"      BACKEND FAILED - {msg}", file=sys.stderr, flush=True)
+            print(f"      CASE FAILED - {msg}", file=sys.stderr, flush=True)
             backend_failures.append(msg)
             case_rows.append(
                 {
@@ -134,67 +210,6 @@ def score(cases: list[dict[str, Any]], backend: str, only: str | None) -> dict[s
                     "backend_failed": True,
                 }
             )
-            continue
-        gold = case["gold"]
-        expected = {i for i in gold["expected_indicators"] if module_filter(i, only)}
-        forbidden = {i for i in gold["must_not_fire"] if module_filter(i, only)}
-
-        if "refusal" not in doc:
-            contract_problems.extend(f"{case['case_id']}: {p}" for p in validate(doc))
-
-        predicted_conf = {
-            i["indicator_id"]: i["confidence"]
-            for i in doc.get("indicators", [])
-            if i["confidence"] >= EVIDENCE_FLOOR and module_filter(i["indicator_id"], only)
-        }
-        predicted = set(predicted_conf)
-
-        tripped = doc.get("safety_gate", {}).get("tripped", False)
-        gate_expected = gold.get("expected_safety_trip", False)
-        gate_ok = tripped == gate_expected
-
-        tp, fn, fp = predicted & expected, expected - predicted, predicted - expected
-        for ind in tp:
-            per_module[ind.split(".")[0]]["tp"] += 1
-        for ind in fn:
-            per_module[ind.split(".")[0]]["fn"] += 1
-        for ind in fp:
-            per_module[ind.split(".")[0]]["fp"] += 1
-
-        for ind, conf in predicted_conf.items():
-            for lo, hi, label in BANDS:
-                if lo <= conf < hi:
-                    calib[label]["n"] += 1
-                    calib[label]["correct"] += 1 if ind in expected else 0
-                    break
-
-        for ind in forbidden:
-            near_miss["total"] += 1
-            if ind in predicted:
-                near_miss["fired"] += 1
-                near_miss["detail"].append(
-                    f"{case['case_id']}: {ind} fired at {predicted_conf[ind]:.2f}"
-                )
-
-        max_ind = gold.get("max_indicators")
-        sparse_ok = max_ind is None or len(predicted) <= max_ind
-
-        case_rows.append(
-            {
-                "case_id": case["case_id"],
-                "kind": case.get("kind", "positive"),
-                "lang": case["language"],
-                "tp": len(tp),
-                "fn": len(fn),
-                "fp": len(fp),
-                "missed": sorted(fn),
-                "spurious": sorted(fp),
-                "gate_ok": gate_ok,
-                "sparse_ok": sparse_ok,
-                "n_predicted": len(predicted),
-                "max_indicators": max_ind,
-            }
-        )
 
     return {
         "per_module": {k: dict(v) for k, v in per_module.items()},

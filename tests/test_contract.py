@@ -296,6 +296,40 @@ def test_output_matches_schema_required_fields():
             assert (ind["speaker"] is None) == (ind["unit"] == "dyad")
 
 
+def test_validate_reports_malformed_documents_instead_of_crashing():
+    """A validator that dies on invalid input fails exactly when it is needed.
+
+    Regression: validate() indexed ind["speaker"], which the schema does not require.
+    A conforming document that simply omitted the key crashed the eval harness.
+    """
+    ok = {
+        "safety_gate": {"halted_analysis": False, "tripped": False},
+        "ruled_out": [{"module": "m", "construct": "c", "basis": "b", "counter_evidence": []}],
+        "competing_readings": [{"reading": "r", "discriminating_data": "d"}],
+        "indicators": [{
+            "indicator_id": "gottman.pos_neg_ratio", "module": "20", "construct": "C",
+            "theory_source": "S", "present": True, "unit": "dyad",
+            "evidence": [{"turn": 1, "speaker": "A", "quote": "hi"}],
+            "inference_level": "observed", "confidence": 0.72,
+            "confidence_band": "tentative", "rationale": "r", "not_licensed": "n",
+        }],
+    }
+    # `speaker` absent on a dyad indicator is valid: absent and null both mean no speaker.
+    assert validate(ok) == []
+
+    assert any("missing required top-level key" in p for p in validate({}))
+    assert any("missing required field" in p for p in validate({**ok, "indicators": [{"unit": "speaker"}]}))
+    assert any("non-numeric confidence" in p or "not a number" in p
+               for p in validate({**ok, "indicators": [{**ok["indicators"][0], "confidence": "high"}]}))
+    bad_dyad = {**ok["indicators"][0], "speaker": "A"}
+    assert any("dyad-level indicator carries a speaker" in p
+               for p in validate({**ok, "indicators": [bad_dyad]}))
+    # none of these may raise
+    for junk in ({"indicators": []}, {**ok, "indicators": [{}]},
+                 {**ok, "indicators": [{**ok["indicators"][0], "evidence": ["x"]}]}):
+        validate(junk)
+
+
 def test_every_indicator_declares_what_it_does_not_license():
     doc = _doc(CONFLICT)
     for ind in doc["indicators"]:
