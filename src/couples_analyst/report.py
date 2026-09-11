@@ -147,7 +147,7 @@ CONSTRUCT_ES = {
     "behavioral.vague_agreement": "acuerdo vago",
     "behavioral.reinforcement_erosion": "erosión del refuerzo",
     "behavioral.coercive_pressure": "presión coercitiva",
-    "behavioral.coercion_cycle_completed": "contingencia coercitiva completa",
+    "behavioral.compliance_under_pressure": "cumplimiento bajo presión",
     "behavioral.exchange_asymmetry": "asimetría en el intercambio",
     "behavioral.acceptance_move": "movimiento de aceptación",
     "behavioral.change_demand": "demanda de cambio",

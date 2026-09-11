@@ -175,9 +175,13 @@ def code(tr: Transcript, lang: str) -> ModuleResult:
             module=MODULE,
             construct="Secure-base support for exploration",
             reason=(
-                "Secure-base behavior appears around one partner's autonomous pursuits, which "
-                "a conflict transcript rarely contains."
+                "Defined but deliberately not implemented. The markers that would signal it "
+                "('take your time', 'go ahead') are not distinguishable in text from "
+                "safe-haven comfort, and what separates them — whether the partner is "
+                "exploring or distressed — lives in the situation rather than the wording. "
+                "A detector would mostly re-code safe-haven responses under a second name."
             ),
+            measurement_layer="unmeasured",
         ),
     ])
     res.open_questions.extend([

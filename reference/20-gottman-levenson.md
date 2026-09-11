@@ -21,6 +21,14 @@ The physiological half is not, and is marked `unmeasured` throughout.
 | **Defensiveness** `gottman.defensiveness` | Warding off perceived attack rather than taking any responsibility: counter-complaint ("what about when *you*…"), innocent-victim stance, yes-but, denial of a specific behavior, blame-reversal. | **Disagreement with a factual claim**, and **accepting responsibility with context** ("I did forget — I had a bad day, but I forgot"). |
 | **Stonewalling** `gottman.stonewalling` | Listener withdrawal from the interaction: monosyllabic/minimal responses across **consecutive** turns, refusal to engage, "whatever", "fine.", "I'm done talking", leaving without a return. | **A requested time-out** — see §1.2. This discrimination is the single most important one in the module. |
 
+Two constructs sit alongside the four and are coded in their own right, because each is the
+near-miss that must not be read as a horseman:
+
+| Construct | Operational definition |
+| --- | --- |
+| **Complaint** `gottman.complaint` | A specific behavior, in a specific situation, with the speaker's own reaction, and **no** global quantifier or character attribution. Coded positively rather than merely withheld from criticism: a transcript in which grievances stay specific is different from one with no grievance, and the report should be able to say so. A complaint raised to ward off another complaint is a counter-complaint and is coded as defensiveness instead, not additionally as a complaint. |
+| **Requested time-out** `gottman.time_out_request` | A withdrawal satisfying all three legs in §1.2. Coded positively for the same reason: this is the behavior the framework recommends, and a report that could only ever record its absence would be unable to distinguish it from stonewalling. |
+
 Each of the four requires the speaker's *own* turn to satisfy the definition. Coding a
 horseman from the partner's description of it ("you're always so contemptuous") is a
 report about the relationship, not an instance, and is coded at most as `inferred`.

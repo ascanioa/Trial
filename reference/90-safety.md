@@ -69,9 +69,16 @@ run safety screen
    |
    +-- markers present -------------> HALT. Emit safety-only report.
                                       Modules 10-60 are NOT run.
-                                      analysis.json: gate.tripped = true,
-                                      indicators = safety indicators only.
+                                      analysis.json: safety_gate.tripped = true,
+                                      safety_gate.markers = what was observed,
+                                      indicators = [] (EMPTY).
 ```
+
+**Markers go in `safety_gate.markers`, never in `indicators`.** Two reasons. A marker
+carries `direction` and `ambiguous`, which an indicator record has no field for, and
+direction is the part that must not be lost. And an empty `indicators` array makes "no
+pattern analysis was emitted" a structural property of the document rather than a
+convention a reader has to verify construct by construct.
 
 When the gate trips, the **only** output is:
 

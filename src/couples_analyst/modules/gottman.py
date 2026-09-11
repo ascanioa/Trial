@@ -368,6 +368,32 @@ def code(tr: Transcript, lang: str) -> ModuleResult:
             )
 
     # ------------------------------------------------------- Bids and turning toward
+    # The bid is its own indicator (20-gottman sec. 1.4), separately from how it was met:
+    # a transcript full of unanswered bids and one with no bids at all are different, and
+    # folding bids into the adjacency pair would make them indistinguishable.
+    for spk, evs in by_speaker(scan(tr, L.BID, lang, speakers=dyad)).items():
+        emit(
+            res,
+            Indicator(
+                indicator_id="gottman.bid",
+                module=MODULE,
+                construct="Bid for connection",
+                theory_source=SRC_BIDS,
+                unit="speaker",
+                speaker=spk,
+                evidence=_dedupe(evs),
+                rationale=(
+                    "A turn seeking connection, attention, humor, support, or agreement."
+                ),
+                not_licensed=(
+                    "Says nothing about how the bid was met; that is coded separately as the "
+                    "adjacency pair. A bid is not a demand and carries no implication that "
+                    "the partner owed a particular response."
+                ),
+            ),
+            transcript_turns=n_turns,
+        )
+
     for t in turns:
         bid_hits = turn_hits(t, L.BID, lang)
         if not bid_hits:

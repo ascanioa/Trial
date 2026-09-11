@@ -45,7 +45,17 @@ Two functions of the attachment figure (Bowlby; Ainsworth):
 | --- | --- |
 | `attachment.proximity_seeking` | A turn that seeks contact, reassurance, or presence: asking the partner to stay, come back, talk, hold; naming missing them; asking whether the pair is all right. |
 | `attachment.safe_haven_response` | A turn that offers availability in response to distress: "I'm here", "we'll get through this", "what do you need", "take your time". |
-| `attachment.secure_base_support` | A turn that supports the partner's autonomy or exploration without withdrawing connection. Rare in conflict transcripts; frequently `not_assessable`. |
+| `attachment.secure_base_support` | **Defined but not implemented** — see below. |
+
+**On `attachment.secure_base_support`.** Secure-base support is a turn backing the partner's
+autonomy or exploration while staying connected. No text-only indicator for it is emitted,
+because the markers that would signal it ("take your time", "go ahead, I'll handle it") are
+not distinguishable in text from safe-haven comfort, and the distinguishing feature —
+whether the partner is exploring or distressed — lives in the situation rather than the
+wording. Rather than ship a detector that mostly re-codes safe-haven responses under a
+second name, the construct is reported as `not_assessable` on every run. This follows the
+same rule as `40-bowen-systems.md` §1.6: where the theory does not license a text-only
+indicator, say so instead of approximating one.
 
 ### 2.2 Protest behavior
 

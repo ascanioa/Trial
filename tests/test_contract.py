@@ -280,6 +280,67 @@ def test_spanish_is_coded_and_reported_in_spanish():
     assert "## 1. Lo que este análisis no puede decirte" in report
 
 
+# Constructs the reference files define and deliberately do NOT implement. Each must carry
+# its reason in the reference file; see reference/10-attachment.md sec. 2.1.
+DECLARED_UNIMPLEMENTED = {"attachment.secure_base_support"}
+
+
+def test_reference_files_and_implementation_agree_on_indicator_ids():
+    """The reference files are the declared authority; the code must not drift from them.
+
+    Regression: the implementation emitted gottman.complaint, gottman.time_out_request and
+    behavioral.coercion_cycle_completed, none of which any reference file defined, while
+    reference files defined gottman.bid and behavioral.compliance_under_pressure, which no
+    module emitted. The agent backend followed the reference files and was scored wrong for it.
+    """
+    import re as _re
+    pattern = r"(?:gottman|attachment|eft|bowen|interdependence|behavioral)\.[a-z0-9_]+"
+
+    ref_ids = set()
+    for f in (ROOT / "reference").glob("*.md"):
+        ref_ids |= set(_re.findall(rf"`({pattern})`", f.read_text()))
+    impl_ids = set()
+    for f in (ROOT / "src" / "couples_analyst" / "modules").glob("*.py"):
+        impl_ids |= set(_re.findall(rf'"({pattern})"', f.read_text()))
+
+    assert ref_ids and impl_ids, "id extraction found nothing; the patterns have rotted"
+
+    undefined = impl_ids - ref_ids
+    assert not undefined, (
+        f"emitted but not defined in reference/: {sorted(undefined)}. "
+        "Define them, or rename to the id the reference file already uses."
+    )
+    unimplemented = ref_ids - impl_ids - DECLARED_UNIMPLEMENTED
+    assert not unimplemented, (
+        f"defined in reference/ but never emitted: {sorted(unimplemented)}. "
+        "Implement them, or declare them unimplemented with a stated reason."
+    )
+    for ind in DECLARED_UNIMPLEMENTED:
+        assert ind in ref_ids, f"{ind} is on the exemption list but no reference file defines it"
+
+
+def test_every_gold_id_is_an_id_some_module_can_emit():
+    """A gold label naming a nonexistent indicator is a test that can never fail.
+
+    Regression: renaming behavioral.coercion_cycle_completed left a must_not_fire entry
+    pointing at a dead id, which passed silently while guarding nothing.
+    """
+    import re as _re
+    emitted = set()
+    for mod in (ROOT / "src" / "couples_analyst" / "modules").glob("*.py"):
+        emitted |= set(_re.findall(r'"([a-z]+\.[a-z0-9_]+)"', mod.read_text()))
+    assert emitted, "found no indicator ids in the modules"
+
+    unknown = {}
+    for case in (ROOT / "evals" / "cases").glob("*.json"):
+        gold = json.loads(case.read_text())["gold"]
+        for key in ("expected_indicators", "must_not_fire"):
+            for ind in gold.get(key, []):
+                if ind not in emitted:
+                    unknown.setdefault(case.stem, []).append(f"{key}:{ind}")
+    assert not unknown, f"gold labels name ids no module emits: {unknown}"
+
+
 # ------------------------------------------------------------------------- schema
 def test_output_matches_schema_required_fields():
     schema = json.loads((ROOT / "schemas" / "analysis.schema.json").read_text())

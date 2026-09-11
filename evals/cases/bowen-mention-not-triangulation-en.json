@@ -9,7 +9,8 @@
     "expected_indicators": [
       "behavioral.concrete_agreement",
       "bowen.multigenerational_framing",
-      "bowen.third_party_present"
+      "bowen.third_party_present",
+      "gottman.bid"
     ],
     "must_not_fire": [
       "behavioral.coercive_pressure",
@@ -20,6 +21,6 @@
       "gottman.defensiveness"
     ],
     "expected_safety_trip": false,
-    "notes": "Third parties appear in every turn as subject matter. None is quoted as an ally, appealed to as authority, or positioned as judge. Triangulation must not fire. 'I'll tell my father tonight' specifies a behavior and a time, which is 60-behavioral's concrete agreement."
+    "notes": "Third parties appear in every turn as subject matter. None is quoted as an ally, appealed to as authority, or positioned as judge. Triangulation must not fire. 'I'll tell my father tonight' specifies a behavior and a time, which is 60-behavioral's concrete agreement. gottman.bid fires on B's 'What do you want to do?' - a bid is coded in its own right per 20-gottman-levenson.md sec. 1.4, separately from how it was met."
   }
 }

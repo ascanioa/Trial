@@ -50,7 +50,7 @@
 
     "safety_gate": {
       "type": "object",
-      "description": "Runs before all other modules. When tripped, modules 10-60 are not run and the indicator list contains safety markers only.",
+      "description": "Runs before all other modules. When tripped, modules 10-60 are not run, observations are reported here in markers, and the top-level indicators array is empty.",
       "required": ["tripped", "markers"],
       "additionalProperties": false,
       "properties": {

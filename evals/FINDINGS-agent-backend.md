@@ -76,17 +76,48 @@ The agent read the reference files and emitted `gottman.bid` (4 cases) and
 so those 5 scored as false positives while the agent was following the declared authority.
 About 5 of 70 false positives are this, not over-coding.
 
-## 6. Open decisions
+## 6. Decisions taken
 
-1. **Gate output shape.** Either change `validate()` and the reference coder to emit safety
-   markers as indicators, or change the schema and `90-safety.md` to say the marker list is
-   the only place they appear. The second is cleaner — `safety_gate.markers` already carries
-   direction and ambiguity fields that `indicators` has no room for — but it is a spec change
-   and is not made unilaterally here.
-2. **Indicator-id drift.** `gottman.complaint` and `gottman.time_out_request` are good
-   indicators missing from their reference file; `compliance_under_pressure` vs.
-   `coercion_cycle_completed` is a naming split that should resolve to the reference file's
-   name.
+Both open items are now resolved.
+
+**Gate output shape — resolved toward `safety_gate.markers`.** The schema description and
+`90-safety.md` now say markers live in `safety_gate.markers` and `indicators` is empty when
+the gate trips, which is what `validate()` and the reference coder already enforced. A
+marker carries `direction` and `ambiguous`, which an indicator record has no field for, and
+an empty `indicators` array makes "no pattern analysis was emitted" a structural property of
+the document rather than something a reader must verify construct by construct. The agent
+definition now states the shape, so the agent no longer has to infer it.
+
+**Indicator-id drift — resolved toward the reference files, which are the declared
+authority.**
+
+| id | was | now |
+| --- | --- | --- |
+| `gottman.complaint` | emitted, undefined | defined in 20-gottman §1.1 |
+| `gottman.time_out_request` | emitted, undefined | defined in 20-gottman §1.1 |
+| `behavioral.coercion_cycle_completed` | implementation's own name, dyad-level | renamed `behavioral.compliance_under_pressure`, speaker-level, per 60-behavioral §1.2 |
+| `gottman.bid` | defined, never emitted | emitted as its own indicator |
+| `attachment.secure_base_support` | defined, never emitted | declared unimplemented, with the reason stated |
+
+`attachment.secure_base_support` stays unimplemented deliberately: its markers are not
+distinguishable in text from safe-haven comfort, and what separates them lives in the
+situation rather than the wording. Shipping a detector would mostly re-code safe-haven
+responses under a second name. This follows `40-bowen-systems.md` §1.6.
+
+Three tests now guard the class of bug rather than the instances:
+`test_reference_files_and_implementation_agree_on_indicator_ids` (with an explicit exemption
+list for declared-unimplemented constructs), `test_every_gold_id_is_an_id_some_module_can_emit`
+(a gold label naming a dead id is a test that can never fail — renaming had left exactly
+that), and `test_validate_reports_malformed_documents_instead_of_crashing`.
+
+Reference-coder eval after the changes: 80/80, precision and recall 1.00, near-miss FP rate
+0.0%, 29/29 contract tests. The two added true positives are `gottman.bid` firing in the two
+cases that contain bids.
+
+**These figures are not comparable to the agent's 0.47 above.** The agent ran against the
+pre-fix gold labels, and roughly five of its 70 false positives were this drift. A rerun
+would be needed for a clean comparison; the over-coding and calibration findings are large
+enough that the correction does not change them.
 
 ## 7. One case produced no output at all
 

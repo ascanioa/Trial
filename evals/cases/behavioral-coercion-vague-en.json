@@ -8,8 +8,8 @@
   "gold": {
     "expected_indicators": [
       "behavioral.change_demand",
-      "behavioral.coercion_cycle_completed",
       "behavioral.coercive_pressure",
+      "behavioral.compliance_under_pressure",
       "behavioral.refusal",
       "behavioral.reinforcement_erosion",
       "behavioral.request",
@@ -24,6 +24,6 @@
       "gottman.contempt"
     ],
     "expected_safety_trip": false,
-    "notes": "Patterson's coercion contingency is a learning process present in ordinary distressed couples. It is NOT coercive control, and the safety gate must not trip on it — that boundary is the point of this case. 'I am not the one who has to fix everything' satisfies 50-interdependence's self-interest stance (holding to individual outcome, refusing to absorb a cost); coded independently by that module from the same span."
+    "notes": "Patterson's coercion contingency is a learning process present in ordinary distressed couples. It is NOT coercive control, and the safety gate must not trip on it — that boundary is the point of this case. 'I am not the one who has to fix everything' satisfies 50-interdependence's self-interest stance (holding to individual outcome, refusing to absorb a cost); coded independently by that module from the same span. behavioral.coercion_cycle_completed was renamed to behavioral.compliance_under_pressure and moved to speaker level, matching the id and unit that 60-behavioral.md sec. 1.2 actually defines."
   }
 }

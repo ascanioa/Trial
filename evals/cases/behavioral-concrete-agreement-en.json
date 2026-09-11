@@ -15,14 +15,14 @@
       "gottman.repair_attempt"
     ],
     "must_not_fire": [
-      "behavioral.coercion_cycle_completed",
       "behavioral.coercive_pressure",
+      "behavioral.compliance_under_pressure",
       "behavioral.vague_agreement",
       "gottman.criticism",
       "gottman.defensiveness",
       "gottman.stonewalling"
     ],
     "expected_safety_trip": false,
-    "notes": "A firm, repeated request that is negotiated rather than pressed past a refusal. Coercive pressure must not fire."
+    "notes": "A firm, repeated request that is negotiated rather than pressed past a refusal. Coercive pressure must not fire. must_not_fire now names behavioral.compliance_under_pressure: the old behavioral.coercion_cycle_completed id no longer exists, so guarding against it was a test that could never fail."
   }
 }

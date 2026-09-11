@@ -132,40 +132,45 @@ def code(tr: Transcript, lang: str) -> ModuleResult:
             transcript_turns=n_turns,
         )
 
-    # The cycle needs both halves in sequence: pressure, then the partner yielding.
-    completions: list[Evidence] = []
+    # The contingency needs both halves in sequence: pressure, then the partner yielding.
+    # Coded on the yielding partner, per 60-behavioral.md sec. 1.2.
+    yields_by_speaker: dict[str, list[Evidence]] = {}
     for t in pressure_turns:
         nxt = tr.next_turn(t.index)
         if nxt is not None and nxt.speaker != t.speaker and matches(nxt, L.COMPLIANCE, lang):
-            completions.extend([Evidence.from_turn(t, t.text), Evidence.from_turn(nxt, nxt.text)])
-    if completions:
+            yields_by_speaker.setdefault(nxt.speaker, []).extend(
+                [Evidence.from_turn(t, t.text), Evidence.from_turn(nxt, nxt.text)]
+            )
+    for spk, evs in yields_by_speaker.items():
         emit(
             res,
             Indicator(
-                indicator_id="behavioral.coercion_cycle_completed",
+                indicator_id="behavioral.compliance_under_pressure",
                 module=MODULE,
-                construct="Coercion contingency completed",
+                construct="Compliance under pressure",
                 theory_source=SRC_PATTERSON,
-                unit="dyad",
-                evidence=completions,
+                unit="speaker",
+                speaker=spk,
+                evidence=dedupe(evs),
                 rationale=(
-                    "Sustained pressure is followed immediately by the partner yielding. Both "
-                    "halves are present in sequence, which is what distinguishes a "
-                    "contingency from a single demand."
+                    "This speaker yields immediately after sustained pressure from the "
+                    "partner. Both halves of the contingency are present in sequence, which "
+                    "is what distinguishes it from a single demand that happened to be met."
                 ),
                 not_licensed=(
-                    "One completion is an instance, not a trained pattern. Patterson's cycle "
-                    "is a learning history built over many repetitions, which a single "
-                    "conversation cannot show."
+                    "Not a judgment of the speaker, and not evidence of a trained pattern: "
+                    "Patterson's cycle is a learning history built over many repetitions, "
+                    "which one conversation cannot show. Yielding here is also not consent "
+                    "to the pressure."
                 ),
             ),
             transcript_turns=n_turns,
         )
-    elif pressure_turns:
+    if not yields_by_speaker and pressure_turns:
         res.not_assessable.append(
             NotAssessable(
                 module=MODULE,
-                construct="Coercion contingency (completion)",
+                construct="Compliance under pressure (the contingency's second half)",
                 reason=(
                     "Pressure occurs, but the transcript does not show the partner yielding "
                     "immediately after it. Without the second half, what reinforces what "

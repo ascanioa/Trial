@@ -34,7 +34,9 @@ concluding.
 3. **Run the safety gate.** If any marker in `90-safety.md` §2 is present, STOP. Emit the
    safety-only report: what was observed, why the standard analysis does not apply, and a
    recommendation to consult a qualified professional. No cycle, no horsemen, no "both
-   partners contribute", no rule-outs. If the transcript indicates a minor in a romantic or
+   partners contribute", no rule-outs. The observations go in `safety_gate.markers`, and
+   the top-level `indicators` array is **empty** — markers are not indicators, and an
+   empty array is what makes "nothing was coded" checkable. If the transcript indicates a minor in a romantic or
    sexual relationship, stop without coding or excerpting anything.
 4. **Code each module in isolation.** Work through one module completely before opening the
    next, and do not let a strong signal in one recruit weak signals in another. Convergence
