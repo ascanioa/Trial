@@ -1,0 +1,24 @@
+{
+  "case_id": "bowen-triangulation-en",
+  "description": "Third parties recruited into the couple's tension as allies and judges.",
+  "language": "en",
+  "input_format": "speaker_turns",
+  "kind": "positive",
+  "transcript": "A: My mother agrees with me about this. I told her the whole thing on Sunday.\nB: You talked to your mother about our marriage before you talked to me?\nA: Everyone thinks the same. Ask your sister if you don't believe me.\nB: So now your family is the jury.\nA: Even the kids can see how you get. They said so.\nB: Leave them out of it. This is between us.\nA: My mother says you have always been like this.\nB: I am not going to argue with people who are not in the room.",
+  "gold": {
+    "expected_indicators": [
+      "behavioral.refusal",
+      "bowen.third_party_present",
+      "bowen.triangulation"
+    ],
+    "must_not_fire": [
+      "bowen.cutoff",
+      "bowen.fusion",
+      "bowen.multigenerational_framing",
+      "eft.attachment_injury_referenced",
+      "gottman.contempt"
+    ],
+    "expected_safety_trip": false,
+    "notes": " 'I am not going to argue with people who are not in the room' is a refusal under 60-behavioral."
+  }
+}

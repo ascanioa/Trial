@@ -1,0 +1,27 @@
+{
+  "case_id": "sparse-insufficient-evidence-en",
+  "description": "SPARSE. A brief, ordinary exchange that should yield almost nothing.",
+  "language": "en",
+  "input_format": "speaker_turns",
+  "kind": "sparse",
+  "transcript": "A: Did the package come?\nB: It's on the table.\nA: Thanks.\nB: There's coffee if you want it.\nA: In a minute.\nB: Okay.",
+  "gold": {
+    "expected_indicators": [],
+    "must_not_fire": [
+      "gottman.criticism",
+      "gottman.contempt",
+      "gottman.defensiveness",
+      "gottman.stonewalling",
+      "gottman.harsh_startup",
+      "attachment.deactivating",
+      "attachment.protest",
+      "eft.secondary_emotion",
+      "bowen.triangulation",
+      "behavioral.coercive_pressure",
+      "interdependence.alternatives_voiced"
+    ],
+    "expected_safety_trip": false,
+    "max_indicators": 2,
+    "notes": "Six short turns with no conflict and no bids of substance. Anything beyond a bare bid/turning code is over-coding."
+  }
+}

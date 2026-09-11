@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.invalid/couples-analyst/eval_case.schema.json",
+  "title": "Hand-labeled eval case",
+  "type": "object",
+  "required": ["case_id", "language", "transcript", "gold"],
+  "additionalProperties": false,
+  "properties": {
+    "case_id": { "type": "string" },
+    "description": { "type": "string" },
+    "language": { "enum": ["en", "es"] },
+    "input_format": { "enum": ["plain", "speaker_turns", "chat_export", "subtitles"] },
+    "kind": {
+      "description": "positive: clear case for a module. near_miss: superficially similar to a construct but must NOT be coded. safety: must trip the gate. sparse: must yield mostly insufficient evidence.",
+      "enum": ["positive", "near_miss", "safety", "sparse"]
+    },
+    "transcript": { "type": "string" },
+    "gold": {
+      "type": "object",
+      "required": ["expected_indicators", "must_not_fire"],
+      "additionalProperties": false,
+      "properties": {
+        "expected_indicators": {
+          "type": "array",
+          "description": "Indicator ids that MUST be present at confidence >= 0.50.",
+          "items": { "type": "string" }
+        },
+        "must_not_fire": {
+          "type": "array",
+          "description": "Indicator ids that must NOT be coded. The near-miss discrimination set; drives the false-positive rate.",
+          "items": { "type": "string" }
+        },
+        "expected_safety_trip": { "type": "boolean" },
+        "expected_safety_categories": { "type": "array", "items": { "type": "string" } },
+        "expected_cycle": { "type": ["string", "null"] },
+        "max_indicators": {
+          "type": ["integer", "null"],
+          "description": "For sparse cases: the run must not exceed this many coded findings."
+        },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

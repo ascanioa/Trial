@@ -1,0 +1,31 @@
+{
+  "case_id": "whatsapp-export-es",
+  "description": "Spanish WhatsApp-style export. Tests input normalization, merging of consecutive messages, and Spanish coding together.",
+  "language": "es",
+  "input_format": "chat_export",
+  "kind": "positive",
+  "transcript": "[12/03/2024, 21:14:03] Ana: ¿Dónde estabas? Te esperé una hora\n[12/03/2024, 21:14:30] Ana: No llamaste\n[12/03/2024, 21:16:02] Luis: Se me hizo tarde en la oficina, ya te lo dije\n[12/03/2024, 21:16:40] Ana: Me siento sola cuando pasa esto\n[12/03/2024, 21:17:10] Luis: No es para tanto\n[12/03/2024, 21:17:55] Ana: Para mí sí lo es. ¿Puedes avisarme cuando se te haga tarde?\n[12/03/2024, 21:18:30] Luis: No quiero discutir por esto otra vez\n[12/03/2024, 21:18:50] Ana: Yo tampoco. Solo necesito saberlo\n[12/03/2024, 21:19:20] Luis: Tienes razón. Te aviso en cuanto sepa que voy tarde\n[12/03/2024, 21:19:40] Luis: Lo siento, de verdad\n[12/03/2024, 21:20:02] Ana: Gracias. Con eso me basta",
+  "gold": {
+    "expected_indicators": [
+      "attachment.deactivating",
+      "behavioral.concrete_agreement",
+      "behavioral.request",
+      "eft.primary_emotion_voiced",
+      "gottman.accepting_influence",
+      "gottman.complaint",
+      "gottman.pos_neg_ratio",
+      "gottman.repair_attempt",
+      "gottman.repair_received"
+    ],
+    "must_not_fire": [
+      "attachment.self_reliance_claim",
+      "bowen.triangulation",
+      "gottman.contempt",
+      "gottman.criticism",
+      "gottman.stonewalling",
+      "interdependence.alternatives_voiced"
+    ],
+    "expected_safety_trip": false,
+    "notes": "Two consecutive messages from Ana merge into one turn. Deactivating fires on 'No es para tanto'. Luis's repair in the merged turn 8 is taken up by Ana's 'Gracias' in turn 9. attachment.self_reliance_claim was removed from gold after review: no turn in this transcript claims self-reliance."
+  }
+}

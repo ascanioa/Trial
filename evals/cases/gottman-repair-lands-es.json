@@ -1,0 +1,28 @@
+{
+  "case_id": "gottman-repair-lands-es",
+  "description": "Spanish. Softened startup and repair attempts that are received.",
+  "language": "es",
+  "input_format": "speaker_turns",
+  "kind": "positive",
+  "transcript": "A: Me siento sola cuando llegas y te pones con el teléfono toda la noche. Necesito un rato contigo.\nB: Tienes razón. No me había dado cuenta de que era tan seguido.\nA: No quiero pelear por esto. Solo lo echo de menos.\nB: Lo siento. Dejo el teléfono en la cocina cuando llegue, ¿te parece?\nA: Me parece bien. Gracias por escucharme.\nB: Gracias a ti por decírmelo sin gritarme.\nA: ¿Cenamos juntos el jueves entonces?\nB: Sí, el jueves. Lo apunto ahora.",
+  "gold": {
+    "expected_indicators": [
+      "eft.primary_emotion_voiced",
+      "gottman.accepting_influence",
+      "gottman.pos_neg_ratio",
+      "gottman.repair_attempt",
+      "gottman.repair_received",
+      "gottman.softened_startup"
+    ],
+    "must_not_fire": [
+      "gottman.contempt",
+      "gottman.criticism",
+      "gottman.defensiveness",
+      "gottman.harsh_startup",
+      "gottman.rejecting_influence",
+      "gottman.stonewalling"
+    ],
+    "expected_safety_trip": false,
+    "notes": "Opening turn is an I-statement plus a stated need. Repairs are taken up in the next turn each time. 'Me siento sola cuando...' names a primary attachment emotion in the speaker's own words."
+  }
+}

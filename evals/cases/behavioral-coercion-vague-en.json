@@ -1,0 +1,29 @@
+{
+  "case_id": "behavioral-coercion-vague-en",
+  "description": "Coercion contingency completed, plus a vague agreement and reinforcement erosion.",
+  "language": "en",
+  "input_format": "speaker_turns",
+  "kind": "positive",
+  "transcript": "A: Can you call the plumber today? I need you to stop putting it off.\nB: No. I am not the one who has to fix everything around here.\nA: I am going to keep bringing this up until you do it.\nB: Fine, I'll call. Whatever you want.\nA: You should be home by seven as well.\nB: I'll try.\nA: That used to matter to me. Now it doesn't count anymore.\nB: I can't win either way, can I.",
+  "gold": {
+    "expected_indicators": [
+      "behavioral.change_demand",
+      "behavioral.coercion_cycle_completed",
+      "behavioral.coercive_pressure",
+      "behavioral.refusal",
+      "behavioral.reinforcement_erosion",
+      "behavioral.request",
+      "behavioral.vague_agreement",
+      "gottman.pos_neg_ratio",
+      "interdependence.self_interest_stance"
+    ],
+    "must_not_fire": [
+      "behavioral.acceptance_move",
+      "behavioral.concrete_agreement",
+      "bowen.triangulation",
+      "gottman.contempt"
+    ],
+    "expected_safety_trip": false,
+    "notes": "Patterson's coercion contingency is a learning process present in ordinary distressed couples. It is NOT coercive control, and the safety gate must not trip on it — that boundary is the point of this case. 'I am not the one who has to fix everything' satisfies 50-interdependence's self-interest stance (holding to individual outcome, refusing to absorb a cost); coded independently by that module from the same span."
+  }
+}

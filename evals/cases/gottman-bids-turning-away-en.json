@@ -1,0 +1,26 @@
+{
+  "case_id": "gottman-bids-turning-away-en",
+  "description": "Bids for connection that are not taken up. Adjacency-pair coding.",
+  "language": "en",
+  "input_format": "speaker_turns",
+  "kind": "positive",
+  "transcript": "A: How was your day?\nB: The deadline moved again so the whole quarter is a mess now.\nA: Look at this photo from the trip. Do you want to go back in spring?\nB: I have to finish the deck before tomorrow.\nA: I was thinking about your sister's wedding. What do you think about driving down?\nB: Whatever you want.\nA: Are you okay?\nB: I said I have to finish the deck.",
+  "gold": {
+    "expected_indicators": [
+      "bowen.third_party_present",
+      "gottman.pos_neg_ratio",
+      "gottman.turning_away"
+    ],
+    "must_not_fire": [
+      "gottman.accepting_influence",
+      "gottman.contempt",
+      "gottman.criticism",
+      "gottman.defensiveness",
+      "gottman.harsh_startup",
+      "gottman.repair_attempt",
+      "gottman.turning_toward"
+    ],
+    "expected_safety_trip": false,
+    "notes": "Bids in turns 1, 3, 5 and 7 get no uptake of their content. Turning away is coded as an adjacency pair and marked inferred: lexical overlap is a weak proxy for whether a response engages a bid. 'your sister's wedding' is a third party mentioned as subject matter, which 40 codes explicitly as NOT triangulation."
+  }
+}

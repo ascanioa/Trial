@@ -1,0 +1,25 @@
+{
+  "case_id": "gottman-timeout-not-stonewalling-en",
+  "description": "NEAR-MISS. Withdrawal that satisfies all three time-out legs; stonewalling must not fire.",
+  "language": "en",
+  "input_format": "speaker_turns",
+  "kind": "near_miss",
+  "transcript": "A: We need to talk about the money before the end of the month.\nB: I want to talk about it, but I am getting overwhelmed and I can't think straight.\nA: Can you at least look at me? This matters to me.\nB: It matters to me too. I need twenty minutes to calm down, then let's finish this tonight.\nA: Okay. Twenty minutes.\nB: Thank you. I do want to sort this out with you.\nA: I know you do. I get scared when it goes quiet.\nB: I will come back and we will finish it, I promise.",
+  "gold": {
+    "expected_indicators": [
+      "behavioral.request",
+      "eft.primary_emotion_voiced",
+      "gottman.pos_neg_ratio",
+      "gottman.time_out_request"
+    ],
+    "must_not_fire": [
+      "gottman.contempt",
+      "gottman.criticism",
+      "gottman.defensiveness",
+      "gottman.harsh_startup",
+      "gottman.stonewalling"
+    ],
+    "expected_safety_trip": false,
+    "notes": "Names the state, proposes a return, no parting shot. This is the behavior the framework recommends, not a horseman. 'I get scared when it goes quiet' is a voiced primary emotion; 'Can you at least look at me?' is a request."
+  }
+}

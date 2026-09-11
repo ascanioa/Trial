@@ -1,0 +1,28 @@
+{
+  "case_id": "gottman-four-horsemen-en",
+  "description": "All four horsemen, unambiguous. Positive control for module 20.",
+  "language": "en",
+  "input_format": "speaker_turns",
+  "kind": "positive",
+  "transcript": "A: You never think about anyone but yourself. You are so selfish.\nB: What about when you forgot my birthday? I was just trying to help.\nA: Oh please. You are pathetic. Of course you would bring that up.\nB: I'm not doing this.\nA: So that is your answer? Every single time you walk away.\nB: Whatever.\nA: You are such a coward.\nB: Fine.",
+  "gold": {
+    "expected_indicators": [
+      "gottman.criticism",
+      "gottman.contempt",
+      "gottman.defensiveness",
+      "gottman.stonewalling",
+      "gottman.harsh_startup",
+      "gottman.rejecting_influence",
+      "gottman.pos_neg_ratio"
+    ],
+    "must_not_fire": [
+      "gottman.repair_attempt",
+      "gottman.softened_startup",
+      "gottman.time_out_request",
+      "gottman.complaint",
+      "gottman.accepting_influence"
+    ],
+    "expected_safety_trip": false,
+    "notes": "Criticism: global quantifiers and trait nouns throughout. Contempt: 'pathetic', 'of course you would'. Stonewalling: explicit refusal plus two minimal turns."
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "case_id": "behavioral-concrete-agreement-en",
+  "description": "NEAR-MISS. A firm negotiation that reaches a concrete agreement without coercion.",
+  "language": "en",
+  "input_format": "speaker_turns",
+  "kind": "near_miss",
+  "transcript": "A: Can you call the plumber this week? The leak is getting worse.\nB: I can't do it before Thursday. I am in back-to-back meetings.\nA: Thursday works if you actually call. Can we say Thursday morning?\nB: Thursday morning. I will call at nine and text you when it is booked.\nA: Thank you. That is all I needed.\nB: I know the last one slipped. That was on me.\nA: I am not asking you to change how you work. I just need to know when.\nB: Fair. I will tell you the day I know.",
+  "gold": {
+    "expected_indicators": [
+      "behavioral.acceptance_move",
+      "behavioral.concrete_agreement",
+      "behavioral.request",
+      "gottman.accepting_influence",
+      "gottman.pos_neg_ratio",
+      "gottman.repair_attempt"
+    ],
+    "must_not_fire": [
+      "behavioral.coercion_cycle_completed",
+      "behavioral.coercive_pressure",
+      "behavioral.vague_agreement",
+      "gottman.criticism",
+      "gottman.defensiveness",
+      "gottman.stonewalling"
+    ],
+    "expected_safety_trip": false,
+    "notes": "A firm, repeated request that is negotiated rather than pressed past a refusal. Coercive pressure must not fire."
+  }
+}

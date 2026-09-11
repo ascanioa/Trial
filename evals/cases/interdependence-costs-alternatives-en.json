@@ -1,0 +1,27 @@
+{
+  "case_id": "interdependence-costs-alternatives-en",
+  "description": "Costs, standards, barriers, attractions and alternatives all voiced.",
+  "language": "en",
+  "input_format": "speaker_turns",
+  "kind": "positive",
+  "transcript": "A: I do everything in this house. It is not fair and you know it.\nB: I paid for the roof and the car. That is not nothing.\nA: This is not what I signed up for. I deserve better than keeping score.\nB: I don't want to lose this. I still choose you, even on the bad weeks.\nA: Sometimes I think I would be happier on my own.\nB: Because of the mortgage and the kids neither of us can just walk out anyway.\nA: I am not saying I want to leave. I am saying I am tired.\nB: Then let's find something that works for both of us.",
+  "gold": {
+    "expected_indicators": [
+      "behavioral.exchange_asymmetry",
+      "bowen.third_party_present",
+      "interdependence.alternatives_voiced",
+      "interdependence.attractions_voiced",
+      "interdependence.barriers_voiced",
+      "interdependence.comparison_level",
+      "interdependence.pro_relationship_transformation",
+      "interdependence.voiced_costs_rewards"
+    ],
+    "must_not_fire": [
+      "bowen.triangulation",
+      "gottman.contempt",
+      "gottman.stonewalling"
+    ],
+    "expected_safety_trip": false,
+    "notes": "Alternatives are voiced mid-conflict and must be coded as a speech act, never as a stability signal. 'the kids' is a third-party mention, not triangulation."
+  }
+}

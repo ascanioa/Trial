@@ -1,0 +1,29 @@
+{
+  "case_id": "gottman-complaint-not-criticism-en",
+  "description": "NEAR-MISS. A sharp, specific complaint that must not be coded as criticism.",
+  "language": "en",
+  "input_format": "speaker_turns",
+  "kind": "near_miss",
+  "transcript": "A: I waited an hour at the restaurant last night. You didn't call.\nB: I know. I got stuck in the meeting and my phone died.\nA: I felt stupid sitting there alone. I need you to text me when you are running late.\nB: That is fair. I should have found a way to message you.\nA: It is not about the meeting. It is about not knowing.\nB: You are right. I will text you when I know I am going to be late.\nA: Thank you.\nB: I am sorry about last night.",
+  "gold": {
+    "expected_indicators": [
+      "behavioral.concrete_agreement",
+      "behavioral.request",
+      "gottman.accepting_influence",
+      "gottman.complaint",
+      "gottman.pos_neg_ratio",
+      "gottman.repair_attempt",
+      "gottman.repair_received"
+    ],
+    "must_not_fire": [
+      "gottman.contempt",
+      "gottman.criticism",
+      "gottman.defensiveness",
+      "gottman.harsh_startup",
+      "gottman.rejecting_influence",
+      "gottman.stonewalling"
+    ],
+    "expected_safety_trip": false,
+    "notes": "The complaint is sharp but stays on a specific behavior on a specific night. No global quantifier, no trait attribution, so criticism must not fire. 'I need you to text me when you are running late' is a request; 'I will text you when I know I am going to be late' specifies behavior plus trigger."
+  }
+}

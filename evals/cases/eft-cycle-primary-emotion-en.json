@@ -1,0 +1,29 @@
+{
+  "case_id": "eft-cycle-primary-emotion-en",
+  "description": "Pursue-withdraw cycle with a primary emotion voiced and an attachment injury referenced.",
+  "language": "en",
+  "input_format": "speaker_turns",
+  "kind": "positive",
+  "transcript": "A: You checked out again tonight. I am so angry I can't even look at you.\nB: I'm not doing this now. It's not that deep.\nA: When I was in the hospital you weren't there either. I felt invisible then too.\nB: That was three years ago. I'll handle my side of it myself.\nA: I am not asking you to handle it. I am asking you to stay in the room.\nB: There's nothing to talk about.\nA: I feel lonely sitting next to you. That is what this is about.\nB: I don't know what you want from me.",
+  "gold": {
+    "expected_indicators": [
+      "attachment.deactivating",
+      "attachment.proximity_seeking",
+      "attachment.self_reliance_claim",
+      "behavioral.request",
+      "eft.attachment_injury_referenced",
+      "eft.primary_emotion_voiced",
+      "eft.secondary_emotion",
+      "gottman.stonewalling"
+    ],
+    "must_not_fire": [
+      "bowen.fusion",
+      "eft.primary_emotion_inferred",
+      "gottman.contempt",
+      "interdependence.alternatives_voiced"
+    ],
+    "expected_safety_trip": false,
+    "expected_cycle": "pursue_withdraw",
+    "notes": "primary_emotion_inferred must NOT fire for A: A names the primary emotion directly, so no inference is needed or licensed. 'I am asking you to stay in the room' is both a bid for presence (10) and a request (60) - one utterance read by two frameworks, which 60-behavioral sec. 1.3 requires the report to flag rather than count twice."
+  }
+}

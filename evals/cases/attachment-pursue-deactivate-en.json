@@ -1,0 +1,28 @@
+{
+  "case_id": "attachment-pursue-deactivate-en",
+  "description": "Proximity-seeking and protest met with deactivating moves. Strategies only; no style is ever assigned.",
+  "language": "en",
+  "input_format": "speaker_turns",
+  "kind": "positive",
+  "transcript": "A: Talk to me. Why don't you ever say something?\nB: It's not a big deal. Can we talk about something else?\nA: Do you even care? I have been asking all week.\nB: I'll handle it myself. I don't need help.\nA: Don't shut me out. Are we ok?\nB: I'm fine.\nA: If you really loved me you would answer me.\nB: I'm used to doing it alone anyway.",
+  "gold": {
+    "expected_indicators": [
+      "attachment.deactivating",
+      "attachment.hyperactivating",
+      "attachment.protest",
+      "attachment.proximity_seeking",
+      "attachment.self_reliance_claim"
+    ],
+    "must_not_fire": [
+      "attachment.safe_haven_response",
+      "bowen.triangulation",
+      "eft.attachment_injury_referenced",
+      "gottman.contempt",
+      "gottman.criticism",
+      "gottman.stonewalling"
+    ],
+    "expected_safety_trip": false,
+    "expected_cycle": "pursue_withdraw",
+    "notes": " gottman.stonewalling was removed from gold after review: B answers substantively every turn, which is deactivating, not listener withdrawal. It is listed under must_not_fire instead."
+  }
+}

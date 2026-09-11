@@ -1,0 +1,25 @@
+{
+  "case_id": "bowen-mention-not-triangulation-en",
+  "description": "NEAR-MISS. Family is discussed at length but never recruited into the tension.",
+  "language": "en",
+  "input_format": "speaker_turns",
+  "kind": "near_miss",
+  "transcript": "A: My mother called about Christmas. She wants to know if we are driving up.\nB: I don't mind either way. What do you want to do?\nA: Your parents asked too. The kids would rather stay home this year.\nB: Then let's stay home. I'll tell my father tonight.\nA: My sister will be disappointed but she will get over it.\nB: We can see her in January when the roads are better.\nA: I grew up doing the big drive every year and I hated it.\nB: Then we are definitely not doing that to the kids.",
+  "gold": {
+    "expected_indicators": [
+      "behavioral.concrete_agreement",
+      "bowen.multigenerational_framing",
+      "bowen.third_party_present"
+    ],
+    "must_not_fire": [
+      "behavioral.coercive_pressure",
+      "bowen.cutoff",
+      "bowen.fusion",
+      "bowen.triangulation",
+      "gottman.criticism",
+      "gottman.defensiveness"
+    ],
+    "expected_safety_trip": false,
+    "notes": "Third parties appear in every turn as subject matter. None is quoted as an ally, appealed to as authority, or positioned as judge. Triangulation must not fire. 'I'll tell my father tonight' specifies a behavior and a time, which is 60-behavioral's concrete agreement."
+  }
+}

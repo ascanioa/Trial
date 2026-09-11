@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "couples-analyst"
+version = "0.1.0"
+description = "A descriptive coding instrument for couple conversation transcripts. Not a diagnosis, not a predictor."
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+couples-analyst = "couples_analyst.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

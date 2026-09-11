@@ -1,0 +1,271 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.invalid/couples-analyst/analysis.schema.json",
+  "title": "Couples conversation analysis",
+  "description": "Machine-readable output of the couples-analyst coding instrument. Descriptive only: contains no diagnosis, no dispositional trait assignment, and no stability or dissolution prediction.",
+  "type": "object",
+  "required": ["schema_version", "run", "transcript", "safety_gate", "indicators", "insufficient_evidence", "ruled_out", "not_assessable", "competing_readings", "open_questions", "limitations"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+
+    "run": {
+      "type": "object",
+      "required": ["tool_version", "timestamp", "input_format", "language", "anonymized"],
+      "additionalProperties": false,
+      "properties": {
+        "tool_version": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "input_format": { "enum": ["plain", "speaker_turns", "chat_export", "subtitles"] },
+        "language": { "enum": ["en", "es"] },
+        "language_confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "anonymized": { "type": "boolean" },
+        "modules_run": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+
+    "transcript": {
+      "type": "object",
+      "required": ["turn_count", "speakers", "attribution_uncertain_turns"],
+      "additionalProperties": false,
+      "properties": {
+        "turn_count": { "type": "integer", "minimum": 0 },
+        "speakers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string" },
+              "original_label": { "type": ["string", "null"] },
+              "turn_count": { "type": "integer", "minimum": 0 }
+            }
+          }
+        },
+        "attribution_uncertain_turns": { "type": "array", "items": { "type": "integer" } },
+        "notes": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+
+    "safety_gate": {
+      "type": "object",
+      "description": "Runs before all other modules. When tripped, modules 10-60 are not run and the indicator list contains safety markers only.",
+      "required": ["tripped", "markers"],
+      "additionalProperties": false,
+      "properties": {
+        "tripped": { "type": "boolean" },
+        "halted_analysis": { "type": "boolean" },
+        "markers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["category", "evidence", "direction", "ambiguous"],
+            "additionalProperties": false,
+            "properties": {
+              "category": {
+                "enum": ["threat", "physical_violence", "intimidation", "monitoring", "financial_control", "isolation", "sexual_coercion", "expressed_fear"]
+              },
+              "direction": {
+                "description": "As stated in the text. 'unclear' where the transcript does not establish direction.",
+                "enum": ["A_toward_B", "B_toward_A", "mutual_as_stated", "unclear"]
+              },
+              "evidence": { "$ref": "#/definitions/evidenceList" },
+              "ambiguous": { "type": "boolean" },
+              "competing_reading": { "type": ["string", "null"] }
+            }
+          }
+        },
+        "statement": { "type": ["string", "null"] }
+      }
+    },
+
+    "indicators": {
+      "type": "array",
+      "description": "Findings at confidence >= 0.50. Every entry is anchored to at least one quoted span.",
+      "items": { "$ref": "#/definitions/indicator" }
+    },
+
+    "insufficient_evidence": {
+      "type": "array",
+      "description": "Constructs whose signal fell below the 0.50 evidentiary floor. Reported as gaps, not findings.",
+      "items": {
+        "type": "object",
+        "required": ["module", "construct", "what_was_seen", "what_is_missing"],
+        "additionalProperties": false,
+        "properties": {
+          "module": { "type": "string" },
+          "construct": { "type": "string" },
+          "confidence": { "type": "number", "minimum": 0, "exclusiveMaximum": 0.5 },
+          "what_was_seen": { "type": "string" },
+          "what_is_missing": { "type": "string" },
+          "evidence": { "$ref": "#/definitions/evidenceList" }
+        }
+      }
+    },
+
+    "ruled_out": {
+      "type": "array",
+      "description": "MANDATORY and non-empty when the safety gate did not trip. Constructs actively searched for, not found, in a transcript that gave them an occasion to appear.",
+      "items": {
+        "type": "object",
+        "required": ["module", "construct", "basis", "counter_evidence"],
+        "additionalProperties": false,
+        "properties": {
+          "module": { "type": "string" },
+          "construct": { "type": "string" },
+          "basis": { "type": "string", "description": "Why the operational definition was not satisfied." },
+          "counter_evidence": {
+            "$ref": "#/definitions/evidenceList",
+            "description": "Spans that argue against the construct being present."
+          }
+        }
+      }
+    },
+
+    "not_assessable": {
+      "type": "array",
+      "description": "Constructs with no occasion to appear in this transcript. Distinct from ruled_out: absence of opportunity, not absence of the construct.",
+      "items": {
+        "type": "object",
+        "required": ["module", "construct", "reason"],
+        "additionalProperties": false,
+        "properties": {
+          "module": { "type": "string" },
+          "construct": { "type": "string" },
+          "reason": { "type": "string" },
+          "measurement_layer": {
+            "description": "Set to 'unmeasured' where the construct exists in the theory but has no text-observable indicator at all (e.g. physiological flooding).",
+            "enum": ["unmeasured", "no_occasion"]
+          }
+        }
+      }
+    },
+
+    "cycle": {
+      "type": ["object", "null"],
+      "description": "Dyadic pattern. Stated symmetrically; contains no first-cause attribution.",
+      "required": ["pattern", "positions", "symmetric_statement", "confidence"],
+      "additionalProperties": false,
+      "properties": {
+        "pattern": { "enum": ["pursue_withdraw", "withdraw_withdraw", "attack_attack", "mixed", "no_clear_cycle"] },
+        "positions": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "A": { "enum": ["pursuing", "withdrawing", "attacking", "alternating", "unclear"] },
+            "B": { "enum": ["pursuing", "withdrawing", "attacking", "alternating", "unclear"] }
+          }
+        },
+        "symmetric_statement": { "type": "string" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "evidence": { "$ref": "#/definitions/evidenceList" }
+      }
+    },
+
+    "competing_readings": {
+      "type": "array",
+      "minItems": 1,
+      "description": "At least one alternative interpretation of the same transcript.",
+      "items": {
+        "type": "object",
+        "required": ["reading", "discriminating_data"],
+        "additionalProperties": false,
+        "properties": {
+          "reading": { "type": "string" },
+          "applies_to": { "type": "array", "items": { "type": "string" } },
+          "discriminating_data": {
+            "type": "string",
+            "description": "What additional evidence would distinguish this reading from the primary one."
+          }
+        }
+      }
+    },
+
+    "open_questions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "What a clinician would need to ask."
+    },
+
+    "limitations": { "type": "array", "items": { "type": "string" } }
+  },
+
+  "definitions": {
+    "evidenceSpan": {
+      "type": "object",
+      "required": ["turn", "speaker", "quote"],
+      "additionalProperties": false,
+      "properties": {
+        "turn": { "type": "integer", "minimum": 1, "description": "1-indexed turn number in the normalized transcript." },
+        "speaker": { "type": "string" },
+        "quote": { "type": "string", "minLength": 1, "description": "Verbatim span from the transcript. Never paraphrased." },
+        "char_span": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 0 },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "[start, end) offsets of the quote within the turn text."
+        },
+        "attribution_uncertain": { "type": "boolean" }
+      }
+    },
+    "evidenceList": { "type": "array", "items": { "$ref": "#/definitions/evidenceSpan" } },
+
+    "indicator": {
+      "type": "object",
+      "required": ["indicator_id", "module", "construct", "theory_source", "present", "unit", "evidence", "inference_level", "confidence", "confidence_band", "rationale", "not_licensed"],
+      "additionalProperties": false,
+      "properties": {
+        "indicator_id": {
+          "type": "string",
+          "pattern": "^[a-z_]+\\.[a-z0-9_]+$",
+          "description": "Stable dotted id, e.g. 'gottman.contempt'. Language-invariant."
+        },
+        "module": { "type": "string", "description": "Reference file that defines this indicator, e.g. '20-gottman-levenson'." },
+        "construct": { "type": "string", "description": "Canonical English construct name." },
+        "theory_source": { "type": "string", "description": "Citation the operational definition derives from." },
+        "present": { "type": "boolean" },
+        "unit": {
+          "description": "What the code is about. 'dyad' where the theory's unit of analysis is the interaction, not a person.",
+          "enum": ["dyad", "speaker"]
+        },
+        "speaker": {
+          "type": ["string", "null"],
+          "description": "Required when unit = 'speaker'; null when unit = 'dyad'. Names a behavior in this exchange, never a trait of the person."
+        },
+        "evidence": { "$ref": "#/definitions/evidenceList", "minItems": 1 },
+        "counter_evidence": { "$ref": "#/definitions/evidenceList" },
+        "inference_level": { "enum": ["observed", "inferred"] },
+        "confidence": { "type": "number", "minimum": 0.5, "maximum": 1.0 },
+        "confidence_band": { "enum": ["strong", "tentative"] },
+        "confidence_factors": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Penalties applied per 00-epistemics.md 3.1, for auditability."
+        },
+        "rationale": { "type": "string", "description": "Why the spans satisfy the operational definition. Names the inferential step when inference_level = 'inferred'." },
+        "competing_reading": { "type": ["string", "null"], "description": "Required when confidence_band = 'tentative'." },
+        "not_licensed": { "type": "string", "description": "What this indicator does not permit concluding." }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "unit": { "const": "speaker" } }, "required": ["unit"] },
+          "then": { "properties": { "speaker": { "type": "string" } } }
+        },
+        {
+          "if": { "properties": { "unit": { "const": "dyad" } }, "required": ["unit"] },
+          "then": { "properties": { "speaker": { "type": "null" } } }
+        },
+        {
+          "if": { "properties": { "confidence_band": { "const": "tentative" } }, "required": ["confidence_band"] },
+          "then": { "properties": { "competing_reading": { "type": "string" } } }
+        },
+        {
+          "if": { "properties": { "inference_level": { "const": "inferred" } }, "required": ["inference_level"] },
+          "then": { "properties": { "confidence": { "maximum": 0.65 } } }
+        }
+      ]
+    }
+  }
+}
