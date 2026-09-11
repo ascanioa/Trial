@@ -66,16 +66,31 @@ def run_claude(case: dict[str, Any]) -> dict[str, Any]:
         + case["transcript"]
         + "\n</transcript>"
     )
-    proc = subprocess.run(
-        ["claude", "-p", prompt], capture_output=True, text=True, timeout=900
-    )
-    if proc.returncode != 0:
-        raise RuntimeError(f"claude CLI failed for {case['case_id']}: {proc.stderr[:400]}")
-    text = proc.stdout.strip()
-    start, end = text.find("{"), text.rfind("}")
-    if start < 0 or end < 0:
-        raise RuntimeError(f"no JSON in claude output for {case['case_id']}")
-    return json.loads(text[start : end + 1])
+    last_err = ""
+    for attempt in (1, 2):  # the backend is non-deterministic; one retry before giving up
+        proc = subprocess.run(
+            ["claude", "-p", prompt], capture_output=True, text=True, timeout=900
+        )
+        if proc.returncode != 0:
+            last_err = f"CLI exit {proc.returncode}: {proc.stderr[:300]}"
+        else:
+            # A code fence is tolerated: the braces are located inside whatever wrapping
+            # the model emitted.
+            text = proc.stdout.strip()
+            start, end = text.find("{"), text.rfind("}")
+            if start < 0 or end < 0:
+                last_err = (
+                    f"no JSON in output ({len(text)} chars): {text[:200]!r}"
+                    if text else "empty output"
+                )
+            else:
+                try:
+                    return json.loads(text[start : end + 1])
+                except json.JSONDecodeError as exc:
+                    last_err = f"malformed JSON: {exc}"
+        if attempt == 1:
+            print(f"      retrying after: {last_err[:120]}", file=sys.stderr, flush=True)
+    raise RuntimeError(f"{case['case_id']} after 2 attempts - {last_err}")
 
 
 BACKENDS = {"reference": run_reference, "claude": run_claude}
