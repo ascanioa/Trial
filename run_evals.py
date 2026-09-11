@@ -100,7 +100,9 @@ def score(cases: list[dict[str, Any]], backend: str, only: str | None) -> dict[s
     case_rows: list[dict[str, Any]] = []
     contract_problems: list[str] = []
 
-    for case in cases:
+    for n, case in enumerate(cases, 1):
+        # The claude backend takes minutes per case; report progress so a long run is legible.
+        print(f"  [{n}/{len(cases)}] {case['case_id']}...", file=sys.stderr, flush=True)
         doc = BACKENDS[backend](case)
         gold = case["gold"]
         expected = {i for i in gold["expected_indicators"] if module_filter(i, only)}
