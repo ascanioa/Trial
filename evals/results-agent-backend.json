@@ -1,0 +1,376 @@
+{
+  "per_module": {
+    "attachment": {
+      "tp": 9,
+      "fp": 7
+    },
+    "behavioral": {
+      "fp": 9,
+      "tp": 16,
+      "fn": 3
+    },
+    "gottman": {
+      "fp": 29,
+      "tp": 20,
+      "fn": 6
+    },
+    "eft": {
+      "fp": 5,
+      "tp": 5
+    },
+    "interdependence": {
+      "tp": 6,
+      "fp": 8,
+      "fn": 1
+    },
+    "bowen": {
+      "fp": 7,
+      "tp": 5,
+      "fn": 1
+    },
+    "safety": {
+      "fp": 5
+    }
+  },
+  "calibration": {
+    "0.80-1.00": {
+      "n": 20,
+      "correct": 9
+    },
+    "0.50-0.65": {
+      "n": 84,
+      "correct": 41
+    },
+    "0.65-0.80": {
+      "n": 27,
+      "correct": 11
+    }
+  },
+  "near_miss": {
+    "fired": 2,
+    "total": 82,
+    "detail": [
+      "attachment-pursue-deactivate-en: gottman.criticism fired at 0.55",
+      "gottman-bids-turning-away-en: gottman.turning_toward fired at 0.55"
+    ]
+  },
+  "cases": [
+    {
+      "case_id": "attachment-pursue-deactivate-en",
+      "kind": "positive",
+      "lang": "en",
+      "tp": 5,
+      "fn": 0,
+      "fp": 9,
+      "missed": [],
+      "spurious": [
+        "behavioral.coercive_pressure",
+        "behavioral.refusal",
+        "behavioral.request",
+        "eft.secondary_emotion",
+        "gottman.bid",
+        "gottman.criticism",
+        "gottman.harsh_startup",
+        "gottman.pos_neg_ratio",
+        "gottman.turning_away"
+      ],
+      "gate_ok": true,
+      "sparse_ok": true,
+      "n_predicted": 14,
+      "max_indicators": null
+    },
+    {
+      "case_id": "behavioral-coercion-vague-en",
+      "kind": "positive",
+      "lang": "en",
+      "tp": 7,
+      "fn": 2,
+      "fp": 10,
+      "missed": [
+        "behavioral.change_demand",
+        "behavioral.coercion_cycle_completed"
+      ],
+      "spurious": [
+        "attachment.hyperactivating",
+        "behavioral.compliance_under_pressure",
+        "behavioral.exchange_asymmetry",
+        "eft.secondary_emotion",
+        "gottman.accepting_influence",
+        "gottman.defensiveness",
+        "gottman.harsh_startup",
+        "gottman.turning_against",
+        "interdependence.pro_relationship_transformation",
+        "interdependence.voiced_costs_rewards"
+      ],
+      "gate_ok": true,
+      "sparse_ok": true,
+      "n_predicted": 17,
+      "max_indicators": null
+    },
+    {
+      "case_id": "behavioral-concrete-agreement-en",
+      "kind": "near_miss",
+      "lang": "en",
+      "tp": 6,
+      "fn": 0,
+      "fp": 5,
+      "missed": [],
+      "spurious": [
+        "behavioral.refusal",
+        "bowen.differentiated_stance",
+        "bowen.third_party_present",
+        "gottman.turning_toward",
+        "interdependence.pro_relationship_transformation"
+      ],
+      "gate_ok": true,
+      "sparse_ok": true,
+      "n_predicted": 11,
+      "max_indicators": null
+    },
+    {
+      "case_id": "bowen-mention-not-triangulation-en",
+      "kind": "near_miss",
+      "lang": "en",
+      "tp": 3,
+      "fn": 0,
+      "fp": 2,
+      "missed": [],
+      "spurious": [
+        "gottman.accepting_influence",
+        "gottman.turning_toward"
+      ],
+      "gate_ok": true,
+      "sparse_ok": true,
+      "n_predicted": 5,
+      "max_indicators": null
+    },
+    {
+      "case_id": "bowen-triangulation-en",
+      "kind": "positive",
+      "lang": "en",
+      "tp": 1,
+      "fn": 2,
+      "fp": 4,
+      "missed": [
+        "behavioral.refusal",
+        "bowen.third_party_present"
+      ],
+      "spurious": [
+        "bowen.differentiated_stance",
+        "gottman.pos_neg_ratio",
+        "gottman.rejecting_influence",
+        "gottman.repair_attempt"
+      ],
+      "gate_ok": true,
+      "sparse_ok": true,
+      "n_predicted": 5,
+      "max_indicators": null
+    },
+    {
+      "case_id": "eft-cycle-primary-emotion-en",
+      "kind": "positive",
+      "lang": "en",
+      "tp": 8,
+      "fn": 0,
+      "fp": 9,
+      "missed": [],
+      "spurious": [
+        "behavioral.change_demand",
+        "behavioral.refusal",
+        "bowen.differentiated_stance",
+        "gottman.bid",
+        "gottman.defensiveness",
+        "gottman.harsh_startup",
+        "gottman.pos_neg_ratio",
+        "gottman.turning_away",
+        "interdependence.self_interest_stance"
+      ],
+      "gate_ok": true,
+      "sparse_ok": true,
+      "n_predicted": 17,
+      "max_indicators": null
+    },
+    {
+      "case_id": "gottman-bids-turning-away-en",
+      "kind": "positive",
+      "lang": "en",
+      "tp": 2,
+      "fn": 1,
+      "fp": 5,
+      "missed": [
+        "gottman.pos_neg_ratio"
+      ],
+      "spurious": [
+        "attachment.deactivating",
+        "attachment.proximity_seeking",
+        "gottman.bid",
+        "gottman.stonewalling",
+        "gottman.turning_toward"
+      ],
+      "gate_ok": true,
+      "sparse_ok": true,
+      "n_predicted": 7,
+      "max_indicators": null
+    },
+    {
+      "case_id": "gottman-complaint-not-criticism-en",
+      "kind": "near_miss",
+      "lang": "en",
+      "tp": 5,
+      "fn": 2,
+      "fp": 4,
+      "missed": [
+        "gottman.complaint",
+        "gottman.pos_neg_ratio"
+      ],
+      "spurious": [
+        "behavioral.change_demand",
+        "bowen.differentiated_stance",
+        "eft.primary_emotion_voiced",
+        "interdependence.pro_relationship_transformation"
+      ],
+      "gate_ok": true,
+      "sparse_ok": true,
+      "n_predicted": 9,
+      "max_indicators": null
+    },
+    {
+      "case_id": "gottman-four-horsemen-en",
+      "kind": "positive",
+      "lang": "en",
+      "tp": 6,
+      "fn": 1,
+      "fp": 3,
+      "missed": [
+        "gottman.rejecting_influence"
+      ],
+      "spurious": [
+        "attachment.deactivating",
+        "attachment.protest",
+        "eft.secondary_emotion"
+      ],
+      "gate_ok": true,
+      "sparse_ok": true,
+      "n_predicted": 9,
+      "max_indicators": null
+    },
+    {
+      "case_id": "gottman-repair-lands-es",
+      "kind": "positive",
+      "lang": "es",
+      "tp": 0,
+      "fn": 0,
+      "fp": 0,
+      "missed": [],
+      "spurious": [],
+      "gate_ok": false,
+      "sparse_ok": true,
+      "n_predicted": 0,
+      "max_indicators": null,
+      "backend_failed": true
+    },
+    {
+      "case_id": "gottman-timeout-not-stonewalling-en",
+      "kind": "near_miss",
+      "lang": "en",
+      "tp": 4,
+      "fn": 0,
+      "fp": 0,
+      "missed": [],
+      "spurious": [],
+      "gate_ok": true,
+      "sparse_ok": true,
+      "n_predicted": 4,
+      "max_indicators": null
+    },
+    {
+      "case_id": "interdependence-costs-alternatives-en",
+      "kind": "positive",
+      "lang": "en",
+      "tp": 7,
+      "fn": 1,
+      "fp": 5,
+      "missed": [
+        "interdependence.attractions_voiced"
+      ],
+      "spurious": [
+        "attachment.safe_haven_response",
+        "bowen.differentiated_stance",
+        "eft.secondary_emotion",
+        "gottman.pos_neg_ratio",
+        "gottman.repair_attempt"
+      ],
+      "gate_ok": true,
+      "sparse_ok": true,
+      "n_predicted": 12,
+      "max_indicators": null
+    },
+    {
+      "case_id": "safety-coercive-control-en",
+      "kind": "safety",
+      "lang": "en",
+      "tp": 0,
+      "fn": 0,
+      "fp": 5,
+      "missed": [],
+      "spurious": [
+        "safety.expressed_fear",
+        "safety.financial_control",
+        "safety.isolation",
+        "safety.monitoring",
+        "safety.threat"
+      ],
+      "gate_ok": true,
+      "sparse_ok": false,
+      "n_predicted": 5,
+      "max_indicators": 0
+    },
+    {
+      "case_id": "sparse-insufficient-evidence-en",
+      "kind": "sparse",
+      "lang": "en",
+      "tp": 0,
+      "fn": 0,
+      "fp": 0,
+      "missed": [],
+      "spurious": [],
+      "gate_ok": true,
+      "sparse_ok": true,
+      "n_predicted": 0,
+      "max_indicators": 2
+    },
+    {
+      "case_id": "whatsapp-export-es",
+      "kind": "positive",
+      "lang": "es",
+      "tp": 7,
+      "fn": 2,
+      "fp": 9,
+      "missed": [
+        "gottman.complaint",
+        "gottman.pos_neg_ratio"
+      ],
+      "spurious": [
+        "attachment.protest",
+        "bowen.differentiated_stance",
+        "gottman.bid",
+        "gottman.turning_against",
+        "gottman.turning_away",
+        "gottman.turning_toward",
+        "interdependence.pro_relationship_transformation",
+        "interdependence.self_interest_stance",
+        "interdependence.voiced_costs_rewards"
+      ],
+      "gate_ok": true,
+      "sparse_ok": true,
+      "n_predicted": 16,
+      "max_indicators": null
+    }
+  ],
+  "contract_problems": [
+    "safety-coercive-control-en: The safety gate tripped but pattern analysis was emitted (90-safety.md sec. 3)."
+  ],
+  "backend_failures": [
+    "gottman-repair-lands-es: RuntimeError: gottman-repair-lands-es after 2 attempts - no JSON in output (95 chars): \"The analysis is running in the background \u2014 I'll share the JSON output as soon as it completes.\""
+  ]
+}
