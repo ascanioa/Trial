@@ -100,10 +100,26 @@ def score(cases: list[dict[str, Any]], backend: str, only: str | None) -> dict[s
     case_rows: list[dict[str, Any]] = []
     contract_problems: list[str] = []
 
+    backend_failures: list[str] = []
     for n, case in enumerate(cases, 1):
         # The claude backend takes minutes per case; report progress so a long run is legible.
         print(f"  [{n}/{len(cases)}] {case['case_id']}...", file=sys.stderr, flush=True)
-        doc = BACKENDS[backend](case)
+        try:
+            doc = BACKENDS[backend](case)
+        except Exception as exc:  # noqa: BLE001 - one bad case must not lose the other runs
+            msg = f"{case['case_id']}: {type(exc).__name__}: {exc}"
+            print(f"      BACKEND FAILED - {msg}", file=sys.stderr, flush=True)
+            backend_failures.append(msg)
+            case_rows.append(
+                {
+                    "case_id": case["case_id"], "kind": case.get("kind", "positive"),
+                    "lang": case["language"], "tp": 0, "fn": 0, "fp": 0,
+                    "missed": [], "spurious": [], "gate_ok": False, "sparse_ok": True,
+                    "n_predicted": 0, "max_indicators": case["gold"].get("max_indicators"),
+                    "backend_failed": True,
+                }
+            )
+            continue
         gold = case["gold"]
         expected = {i for i in gold["expected_indicators"] if module_filter(i, only)}
         forbidden = {i for i in gold["must_not_fire"] if module_filter(i, only)}
@@ -171,6 +187,7 @@ def score(cases: list[dict[str, Any]], backend: str, only: str | None) -> dict[s
         "near_miss": near_miss,
         "cases": case_rows,
         "contract_problems": contract_problems,
+        "backend_failures": backend_failures,
     }
 
 
@@ -224,7 +241,9 @@ def report(res: dict[str, Any], backend: str) -> int:
     print("\nPER-CASE")
     for row in res["cases"]:
         flags = []
-        if not row["gate_ok"]:
+        if row.get("backend_failed"):
+            flags.append("BACKEND FAILED - no scorable output")
+        elif not row["gate_ok"]:
             flags.append("SAFETY-GATE MISMATCH")
         if not row["sparse_ok"]:
             flags.append(f"over-coded ({row['n_predicted']} > {row['max_indicators']})")
@@ -237,6 +256,13 @@ def report(res: dict[str, Any], backend: str) -> int:
             print(f"      missed:   {', '.join(row['missed'])}")
         if row["spurious"]:
             print(f"      spurious: {', '.join(row['spurious'])}")
+
+    if res.get("backend_failures"):
+        print("\nBACKEND FAILURES (case produced no scorable output)")
+        for f in res["backend_failures"]:
+            print(f"  ! {f}")
+        print("  These cases are counted as failures, not as passes. Per-module figures")
+        print("  above are computed over the cases that did produce output.")
 
     if res["contract_problems"]:
         print("\nOUTPUT-CONTRACT PROBLEMS")
@@ -257,6 +283,7 @@ def report(res: dict[str, Any], backend: str) -> int:
         any(not r["gate_ok"] for r in res["cases"])
         or any(not r["sparse_ok"] for r in res["cases"])
         or bool(res["contract_problems"])
+        or bool(res.get("backend_failures"))
     )
     print()
     return 1 if failed else 0
