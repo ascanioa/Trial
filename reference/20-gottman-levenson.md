@@ -192,8 +192,8 @@ and names this section as the reason.
 
 - Driver, J. L., & Gottman, J. M. (2004). Daily marital interactions and positive affect during marital conflict among newlywed couples. *Family Process, 43*(3), 301–314.
 - Gottman, J. M. (1993). A theory of marital dissolution and stability. *Journal of Family Psychology, 7*(1), 57–75.
-- Gottman, J. M. (1999). *The Marriage Clinic*. Norton.
-- Gottman, J. M., Coan, J., Carrere, S., & Swanson, C. (1998). Predicting marital happiness and stability from newlywed interactions. *Journal of Marriage and the Family, 60*(1), 5–22.
+- Gottman, J. M. (1999). *The Marriage Clinic: A Scientifically Based Marital Therapy*. Norton.
+- Gottman, J. M., Coan, J., Carrère, S., & Swanson, C. (1998). Predicting marital happiness and stability from newlywed interactions. *Journal of Marriage and the Family, 60*(1), 5–22.
 - Gottman, J. M., & Levenson, R. W. (1992). Marital processes predictive of later dissolution: Behavior, physiology, and health. *Journal of Personality and Social Psychology, 63*(2), 221–233.
 - Heyman, R. E., & Smith Slep, A. M. (2001). The hazards of predicting divorce without crossvalidation. *Journal of Marriage and Family, 63*(2), 473–479.
 - Lavner, J. A., Karney, B. R., & Bradbury, T. N. (2016). Does couples' communication predict marital satisfaction, or does marital satisfaction predict communication? *Journal of Marriage and Family, 78*(3), 680–694.

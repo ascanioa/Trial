@@ -308,9 +308,29 @@ implication.
 
 ## Citations
 
-Each `reference/` file ends with its sources. They are given for traceability — verify them
-against the primary literature before relying on any specific claim. Where a theory does not
-license a text-only indicator, the reference file says so instead of manufacturing one.
+Each `reference/` file ends with its sources. **All 50 were checked against primary and
+publisher records** (journal, volume, issue, page range, title, publisher) — Wiley, APA,
+JSTOR, ERIC, Annual Reviews, Guilford/Routledge/Norton catalogue entries, and university
+repositories. Three were wrong and are corrected:
+
+| Citation | Was | Is |
+| --- | --- | --- |
+| Bograd & Mederos (1999) | "selection of treatment **modalities**" | "selection of treatment **modality**" |
+| Fraley, Waller & Brennan (2000) | *JPSP, 78*(2), 350–**365** | *JPSP, 78*(2), 350–**364** |
+| Brennan, Clark & Shaver (1998) | "Self-report measurement of adult **romantic** attachment" | "Self-report measurement of adult attachment: An integrative overview" (pp. 46–76) |
+
+Thirteen others were made more precise (restored subtitles, chapter page ranges, Carrère's
+diacritic, Springer Publishing rather than Springer). The remaining 34 were confirmed exactly
+as written.
+
+Two page ranges are worth knowing about if you check them yourself: reference aggregators
+give Fraley et al. (2000) as 350–365, but the Illinois and Minnesota institutional
+repositories and the APA record all give 350–364. Jacobson, Schmaling & Holtzworth-Munroe
+(1987) appears in some sources as "*A* component analysis"; the journal's own title has no
+leading article, which is what is used here.
+
+Where a theory does not license a text-only indicator, the reference file says so instead of
+manufacturing one.
 
 ## Licence
 

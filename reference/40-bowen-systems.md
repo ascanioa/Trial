@@ -119,4 +119,4 @@ Stated here rather than approximated:
 - Bowen, M. (1978). *Family Therapy in Clinical Practice*. Jason Aronson.
 - Kerr, M. E., & Bowen, M. (1988). *Family Evaluation*. Norton.
 - Knudson-Martin, C. (1994). The female voice: Applications to Bowen's family systems theory. *Journal of Marital and Family Therapy, 20*(1), 35–46.
-- Skowron, E. A., & Friedlander, M. L. (1998). The Differentiation of Self Inventory. *Journal of Counseling Psychology, 45*(3), 235–246.
+- Skowron, E. A., & Friedlander, M. L. (1998). The Differentiation of Self Inventory: Development and initial validation. *Journal of Counseling Psychology, 45*(3), 235–246.

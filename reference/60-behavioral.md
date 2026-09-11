@@ -126,4 +126,4 @@ say which the couple needs, which is a clinical judgment made with the couple pr
 - Jacobson, N. S., & Christensen, A. (1996). *Integrative Couple Therapy: Promoting Acceptance and Change*. Norton.
 - Jacobson, N. S., & Margolin, G. (1979). *Marital Therapy: Strategies Based on Social Learning and Behavior Exchange Principles*. Brunner/Mazel.
 - Jacobson, N. S., Schmaling, K. B., & Holtzworth-Munroe, A. (1987). Component analysis of behavioral marital therapy: Two-year follow-up and prediction of relapse. *Journal of Marital and Family Therapy, 13*(2), 187–195.
-- Patterson, G. R. (1982). *Coercive Family Process*. Castalia.
+- Patterson, G. R. (1982). *Coercive Family Process*. Castalia (Eugene, OR).

@@ -155,9 +155,9 @@ explicitly covert.
 
 ## Sources
 
-- Bograd, M., & Mederos, F. (1999). Battering and couples therapy: Universal screening and selection of treatment modalities. *Journal of Marital and Family Therapy, 25*(3), 291–312.
-- Johnson, M. P. (1995). Patriarchal terrorism and common couple violence. *Journal of Marriage and the Family, 57*(2), 283–294.
+- Bograd, M., & Mederos, F. (1999). Battering and couples therapy: Universal screening and selection of treatment modality. *Journal of Marital and Family Therapy, 25*(3), 291–312.
+- Johnson, M. P. (1995). Patriarchal terrorism and common couple violence: Two forms of violence against women. *Journal of Marriage and the Family, 57*(2), 283–294.
 - Johnson, M. P. (2008). *A Typology of Domestic Violence*. Northeastern University Press.
-- Pence, E., & Paymar, M. (1993). *Education Groups for Men Who Batter: The Duluth Model*. Springer.
+- Pence, E., & Paymar, M. (1993). *Education Groups for Men Who Batter: The Duluth Model*. Springer Publishing.
 - Stark, E. (2007). *Coercive Control: How Men Entrap Women in Personal Life*. Oxford University Press.
 - Straus, M. A. (1979). Measuring intrafamily conflict and violence: The Conflict Tactics (CT) Scales. *Journal of Marriage and the Family, 41*(1), 75–88.

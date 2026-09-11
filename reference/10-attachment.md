@@ -104,13 +104,13 @@ module says the sequence is incomplete rather than inferring it.
 
 ## 5. Sources
 
-- Ainsworth, M. D. S., Blehar, M. C., Waters, E., & Wall, S. (1978). *Patterns of Attachment*. Erlbaum.
+- Ainsworth, M. D. S., Blehar, M. C., Waters, E., & Wall, S. (1978). *Patterns of Attachment: A Psychological Study of the Strange Situation*. Erlbaum.
 - Bowlby, J. (1969/1982). *Attachment and Loss, Vol. 1: Attachment*. Basic Books.
 - Bowlby, J. (1973). *Attachment and Loss, Vol. 2: Separation*. Basic Books.
-- Brennan, K. A., Clark, C. L., & Shaver, P. R. (1998). Self-report measurement of adult romantic attachment. In J. A. Simpson & W. S. Rholes (Eds.), *Attachment Theory and Close Relationships*. Guilford.
-- Fraley, R. C. (2002). Attachment stability from infancy to adulthood. *Personality and Social Psychology Review, 6*(2), 123–151.
-- Fraley, R. C., & Waller, N. G. (1998). Adult attachment patterns: A test of the typological model. In J. A. Simpson & W. S. Rholes (Eds.), *Attachment Theory and Close Relationships*. Guilford.
-- Fraley, R. C., Waller, N. G., & Brennan, K. A. (2000). An item response theory analysis of self-report measures of adult attachment. *Journal of Personality and Social Psychology, 78*(2), 350–365.
+- Brennan, K. A., Clark, C. L., & Shaver, P. R. (1998). Self-report measurement of adult attachment: An integrative overview. In J. A. Simpson & W. S. Rholes (Eds.), *Attachment Theory and Close Relationships* (pp. 46–76). Guilford.
+- Fraley, R. C. (2002). Attachment stability from infancy to adulthood: Meta-analysis and dynamic modeling of developmental mechanisms. *Personality and Social Psychology Review, 6*(2), 123–151.
+- Fraley, R. C., & Waller, N. G. (1998). Adult attachment patterns: A test of the typological model. In J. A. Simpson & W. S. Rholes (Eds.), *Attachment Theory and Close Relationships* (pp. 77–114). Guilford.
+- Fraley, R. C., Waller, N. G., & Brennan, K. A. (2000). An item response theory analysis of self-report measures of adult attachment. *Journal of Personality and Social Psychology, 78*(2), 350–364.
 - Hazan, C., & Shaver, P. (1987). Romantic love conceptualized as an attachment process. *Journal of Personality and Social Psychology, 52*(3), 511–524.
-- Mikulincer, M., & Shaver, P. R. (2016). *Attachment in Adulthood* (2nd ed.). Guilford.
-- Roisman, G. I., Holland, A., Fortuna, K., Fraley, R. C., Clausell, E., & Clarke, A. (2007). The Adult Attachment Interview and self-reports of attachment style. *Journal of Personality and Social Psychology, 92*(4), 678–697.
+- Mikulincer, M., & Shaver, P. R. (2016). *Attachment in Adulthood: Structure, Dynamics, and Change* (2nd ed.). Guilford.
+- Roisman, G. I., Holland, A., Fortuna, K., Fraley, R. C., Clausell, E., & Clarke, A. (2007). The Adult Attachment Interview and self-reports of attachment style: An empirical rapprochement. *Journal of Personality and Social Psychology, 92*(4), 678–697.

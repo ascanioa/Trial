@@ -113,6 +113,6 @@ transcript contains one framing of it at most.
 - Greenberg, L. S. (2002). *Emotion-Focused Therapy: Coaching Clients to Work Through Their Feelings*. APA.
 - Greenberg, L. S., & Johnson, S. M. (1988). *Emotionally Focused Therapy for Couples*. Guilford.
 - Greenberg, L. S., & Safran, J. D. (1987). *Emotion in Psychotherapy*. Guilford.
-- Johnson, S. M. (2004). *The Practice of Emotionally Focused Couple Therapy* (2nd ed.). Brunner-Routledge.
+- Johnson, S. M. (2004). *The Practice of Emotionally Focused Couple Therapy: Creating Connection* (2nd ed.). Brunner-Routledge.
 - Johnson, S. M., Hunsley, J., Greenberg, L., & Schindler, D. (1999). Emotionally focused couples therapy: Status and challenges. *Clinical Psychology: Science and Practice, 6*(1), 67–79.
-- Johnson, S. M., Makinen, J. A., & Millikin, J. W. (2001). Attachment injuries in couple relationships. *Journal of Marital and Family Therapy, 27*(2), 145–155.
+- Johnson, S. M., Makinen, J. A., & Millikin, J. W. (2001). Attachment injuries in couple relationships: A new perspective on impasses in couples therapy. *Journal of Marital and Family Therapy, 27*(2), 145–155.
