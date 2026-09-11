@@ -9,6 +9,7 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT))  # serve.py and run_evals.py live at the repo root
 
 from couples_analyst.compose import analyze, validate  # noqa: E402
 from couples_analyst.indicators import EVIDENCE_FLOOR, Indicator, Evidence  # noqa: E402
@@ -339,6 +340,35 @@ def test_every_gold_id_is_an_id_some_module_can_emit():
                 if ind not in emitted:
                     unknown.setdefault(case.stem, []).append(f"{key}:{ind}")
     assert not unknown, f"gold labels name ids no module emits: {unknown}"
+
+
+# ------------------------------------------------------------------ local web UI
+def test_web_ui_binds_loopback_only_and_escapes_transcripts():
+    """The UI must not reach the network, and must not execute transcript content.
+
+    A transcript is untrusted input that gets echoed back into the page verbatim, and the
+    page may contain a private conversation, so binding to 0.0.0.0 would publish it to the
+    local network.
+    """
+    import serve
+
+    src = (ROOT / "serve.py").read_text()
+    assert '"127.0.0.1"' in src, "server must bind loopback explicitly"
+    assert '"0.0.0.0"' not in src, "server must never bind all interfaces"
+
+    payload = '<script>alert("x")</script> <img src=y onerror=alert(1)>'
+    rendered = serve.markdown_to_html(f"> {payload}")
+    assert "<script>" not in rendered and "<img" not in rendered
+    assert "&lt;script&gt;" in rendered, "content must be escaped, not stripped"
+
+    # markup this repo's reports actually use still renders
+    assert "<strong>x</strong>" in serve.markdown_to_html("**x**")
+    assert "<h2>T</h2>" in serve.markdown_to_html("## T")
+    assert "<blockquote>" in serve.markdown_to_html("> quoted")
+    assert "<li>a</li>" in serve.markdown_to_html("- a")
+    assert serve.markdown_to_html("---").strip() == "<hr>"
+    # a transcript that contains markdown gets escaped first: no tag can be forged
+    assert "&lt;b&gt;" in serve.markdown_to_html("> a <b> tag")
 
 
 # ------------------------------------------------------------------------- schema

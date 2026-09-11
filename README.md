@@ -117,6 +117,30 @@ boundary cannot be established — plain text and subtitles especially — the t
 affected indicators are penalized, and the report says so. Misattributed turns invert the
 coding, so this is never smoothed over.
 
+### Local browser interface
+
+If a terminal is not how you want to work:
+
+```bash
+python3 serve.py          # then open http://127.0.0.1:8000
+python3 serve.py --port 9000
+```
+
+Paste a transcript or drop a `.txt` / `.srt` / `.vtt` file on the page, and read the report
+in the browser. Download buttons give you `report.md` and `analysis.json`.
+
+**It runs entirely on your machine.** The server binds to `127.0.0.1` only — never
+`0.0.0.0`, which would put a form containing a private conversation on your local network —
+makes no outbound connections, writes nothing to disk, and does not log requests. Your
+transcript exists in memory for the length of one request. The page loads no external
+scripts, fonts, or styles, and says so to the browser with a restrictive
+`Content-Security-Policy`.
+
+This matters because **the deterministic coder needs no network at all**: its only imports
+are from the Python standard library, `dependencies = []`, and there is no `urllib`,
+`socket`, or `subprocess` anywhere in `src/`. You can run it with the machine offline. The
+`--backend claude` path is the exception — that one is an API call, by definition.
+
 **As a Claude Code subagent:** `.claude/agents/couples-analyst.md` drives the same procedure
 from the `reference/` files. The deterministic pipeline above is the reference implementation
 the agent checks itself against; where they disagree, `reference/` is the authority.
